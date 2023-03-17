@@ -1,4 +1,4 @@
-const fileInput = document.getElementById('userFile');
+const fileInput = document.getElementById('file');
 const sizeLimit = 1024 * 1024 * 1;
 const handleFileSelect = () => {
 	const files = fileInput.files;

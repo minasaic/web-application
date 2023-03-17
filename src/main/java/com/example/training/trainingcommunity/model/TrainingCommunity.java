@@ -9,4 +9,5 @@ public class TrainingCommunity {
 	private int id;
 	private String name;
 	private String eMail;
+	private String path;
 }

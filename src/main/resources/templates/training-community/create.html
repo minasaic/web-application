@@ -39,19 +39,23 @@
 			<div style="text-align:center; margin-top:20px;margin-bottom:20px;">
 				<label style="margin-right:20px;">メールアドレス</label>
 				<input type="email" placeholder="XXX@XXX.XXX" id="email" name="userEmail"
-					title="メールアドレスを入力してください。"
+					title="メールアドレスを入力してください。" onblur="checkEmail()"
 					required>
+				<p id="error" style="color: brown;"></p>
 			</div>
+			
 			<div style="text-align:center; margin-top:20px;margin-bottom:20px;">
 				<label for="file" style="margin-right:20px;">プロフィール画像</label>
-				<input type="file" accept="image/*" id="file" name="file" multiple>
+				<input type="file" accept="image/*" id="img" name="img" multiple>
 			</div>
 			<div style="text-align:center; margin-top:20px;margin-bottom:20px;">
 				<input class="btn btn-primary" type="submit" id="submit-button" value="確認" title="確認画面へ" />
 				<a class="btn btn-secondary" href="/users/1" title="ユーザー一覧画面へ">キャンセル</a>
 			</div>
 		</form>
-		<!-- <script th:src="@{/js/file_create.js}"></script> -->
+		<!-- <script th:src="@{/js/file_create.js}"></script>
+		<script th:src="@{/js/file_create1.js}"></script> -->
+		<script th:src="@{/js/invalid.js}"></script>
 		
 	</body>
 </html>

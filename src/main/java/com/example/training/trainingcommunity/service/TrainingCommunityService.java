@@ -47,6 +47,7 @@ public class TrainingCommunityService {
 			trainingCommunity.setId((Integer) record.get("id"));
 			trainingCommunity.setName((String) record.get("name"));
 			trainingCommunity.setEMail((String) record.get("e_Mail"));
+			trainingCommunity.setPath((String) record.get("user_image_path"));
 			users.add(trainingCommunity);
 		}
 		return users;
@@ -59,10 +60,11 @@ public class TrainingCommunityService {
 	 * 
 	 * @param userName 登録する名前
 	 */
-	public boolean createUser(String userName, String userEmail) {
+	public boolean createUser(String userName, String userEmail, String userPath) {
 		var trainingCommunity = new TrainingCommunity();
 		trainingCommunity.setName(userName);
 		trainingCommunity.setEMail(userEmail);
+		trainingCommunity.setPath(userPath);
 
 		repo.createUserRecord(trainingCommunity);
 		return true;

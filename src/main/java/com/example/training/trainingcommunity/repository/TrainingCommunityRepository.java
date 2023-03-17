@@ -32,20 +32,11 @@ public class TrainingCommunityRepository {
 	}
 
 	/*
-	 * レコードの個数
-	 */
-	// public Long countUserRecord(TrainingCommunity training) {
-	// String query = "select count(*) from training_users;";
-	// Long countRecord =jadcTemplate.
-	// return
-	// }
-
-	/*
 	 * 研修生1名の新規登録
 	 */
 	public boolean createUserRecord(TrainingCommunity training) {
-		String query = "insert into training_users(name,e_mail) values(?,?);";
-		jdbcTemplate.update(query, training.getName(), training.getEMail());
+		String query = "insert into training_users(name,e_mail,user_image_path) values(?,?,?);";
+		jdbcTemplate.update(query, training.getName(), training.getEMail(), training.getPath());
 		return true;
 	}
 

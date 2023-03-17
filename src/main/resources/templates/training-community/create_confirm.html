@@ -25,7 +25,7 @@
 		<div style="text-align:center">
 			<h1>研修生 新規登録 確認</h1>
 			<div style="margin-top:20px; margin-bottom:20px;">下記の情報で新規登録をします。よろしいですか？</div>
-			<form method="post" action="/create_complete">
+			<form method="post" enctype="multipart/form-data" action="/create_complete">
 				<div>
 					<label style="margin-right:20px;">名前</label>
 					<label th:text="${confirmName}"></label>
@@ -38,17 +38,15 @@
 				</div>
 				<div>
 					<label style="margin-right:20px;">プロフィール画像</label>
-					<img src="file:///C:/kadai4/cc.jpg" alt="Example Image"/>
+					<!-- <img id="img" name="imyguh" width="50" height="50"/> -->
+					<img th:src="'data:image/png;base64,' + ${aa}" alt="image" width="50" height="50">
+					<input type="hidden" name="img" th:value="${aa}"/>
+					<input type="hidden" name="fileName" th:value="${fileName}"/>
 				</div>
-				<input class="btn btn-primary" type="submit" value="登録">
+				<input class="btn btn-primary" type="submit" value="登録"/>
 				<a class="btn btn-secondary" href="/users/1">キャンセル</a>
 			</form>
-			<!-- <script>
-			window.addEventListener('load', function () {
-					const avatar = document.getElementById('avatar-preview');
-					avatar.src = localStorage.getItem('avatar');
-				});
-			</script> -->
+			<!-- <script th:src="@{/js/file_create_confirm.js}"></script> -->
 		</div>
 	</body>
 </html>

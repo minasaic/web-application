@@ -1,7 +1,12 @@
 package com.example.training.trainingcommunity.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.training.trainingcommunity.model.TrainingCommunity;
 import com.example.training.trainingcommunity.service.TrainingCommunityService;
@@ -27,6 +33,11 @@ public class TrainingCommunityController {
 	@Autowired
 	private TrainingCommunityService service;
 
+	@GetMapping("/rensyu")
+	public String renSyu() {
+		return "/training-community/rensyu";
+	}
+
 	// ホームページ
 	@RequestMapping
 	public String home() {
@@ -39,7 +50,7 @@ public class TrainingCommunityController {
 		// List<TrainingCommunity> usersAll = service.getAllUser();
 		List<TrainingCommunity> users = service.getUser(userPage);
 		for (var user : users) {
-			System.out.println(user.getName());
+			System.out.println(user.getName() + user.getPath());
 		}
 		// レコード数によってページ数を調整する
 		int countNum = service.count();
@@ -64,11 +75,15 @@ public class TrainingCommunityController {
 
 	// 新規入力確認
 	@PostMapping("/create_confirm")
-	public String createUser(
+	public String createUser(@RequestParam MultipartFile img,
 			@RequestParam("userName") String name,
 			@RequestParam("userEmail") String email,
-			Model model) {
-		// File file = new File("1.jpg");
+			Model model) throws IOException {
+		byte[] a = img.getBytes();
+		String aa = Base64.getEncoder().encodeToString(a);
+		String fileName = img.getOriginalFilename();
+		model.addAttribute("aa", aa);
+		model.addAttribute("fileName", fileName);
 		model.addAttribute("confirmName", name);
 		model.addAttribute("confirmEmail", email);
 		return "/training-community/create_confirm";
@@ -76,10 +91,28 @@ public class TrainingCommunityController {
 
 	// 新規登録処理
 	@PostMapping("/create_complete")
-	public String createCompleteUser(@RequestParam("userName") String name,
+	public String createCompleteUser(
+			@RequestParam("userName") String name,
 			@RequestParam("userEmail") String email,
+			@RequestParam("img") String img,
+			@RequestParam String fileName,
 			Model model) {
-		service.createUser(name, email);
+		String path = "";
+		if (!img.isEmpty()) {
+			try {
+				byte[] bytes = Base64.getDecoder().decode(img.getBytes("UTF-8"));
+				System.out.println(bytes[0]);
+				// ファイルをどこかに保存する
+				Path path1 = Paths.get("C:/Users/uxauser/training/training/src/main/resources/static/kadai4/"
+						+ fileName);
+				path = "/kadai4/" + fileName;
+				System.out.println(path);
+				Files.write(path1, bytes);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		service.createUser(name, email, path);
 		return "redirect:/users/1";
 	}
 
